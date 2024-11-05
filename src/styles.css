@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+main{
+    height: 75vh;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px; /* Espacio entre las tarjetas */
+    justify-items: center;
+  }
+
+  /* Opcional: Ajuste para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .card-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-container {
+      grid-template-columns: 1fr;
+    }
+  }
