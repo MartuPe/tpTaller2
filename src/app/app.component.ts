@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiServiceService } from './service/api-service.service';
 
 interface Tarea {
   id: number;
@@ -16,16 +17,14 @@ export class AppComponent implements OnInit {
   nombre = 'A - NOTA - 2';
   tareas: Tarea[] = [];
 
+  constructor(private tareaService: ApiServiceService) {}
+
   ngOnInit() {
     this.listarTareas();
   }
 
   listarTareas() {
-    // llamaria a la api o a la bd para traer las tareas
-    this.tareas = [
-      { id: 1, titulo: 'Tarea 1', descripcion: 'Descripción de la tarea 1', completada: false },
-      { id: 2, titulo: 'Tarea 2', descripcion: 'Descripción de la tarea 2', completada: false },
-    ];
+    this.tareaService.listarTareas().subscribe(tareas => this.tareas = tareas);
   }
 
   crearTarea() {
@@ -33,25 +32,32 @@ export class AppComponent implements OnInit {
     const descripcion = prompt('Descripción de su Tarea:');
     if (titulo && descripcion) {
       const tarea: Tarea = { id: this.tareas.length + 1, titulo, descripcion, completada: false };
-      this.tareas.push(tarea);
+      this.tareaService.crearTarea(tarea).subscribe(nuevaTarea => this.tareas.push(nuevaTarea));
     } else {
       alert('El título y la descripción son obligatorios');
     }
   }
 
   eliminarTarea(id: number) {
-    this.tareas = this.tareas.filter(tareas => tareas.id !== id);
+    this.tareaService.eliminarTarea(id).subscribe(() => {
+      this.tareas = this.tareas.filter(tarea => tarea.id !== id);
+    });
   }
 
   modificarTarea(id: number) {
-    const tarea = this.tareas.find(tareas => tareas.id === id);
+    const tarea = this.tareas.find(tarea => tarea.id === id);
     if (tarea) {
-      tarea.titulo = prompt('Nuevo título', tarea.titulo) || tarea.titulo;
-      tarea.descripcion = prompt('Nueva descripción', tarea.descripcion) || tarea.descripcion;
+      const titulo = prompt('Nuevo título', tarea.titulo) || tarea.titulo;
+      const descripcion = prompt('Nueva descripción', tarea.descripcion) || tarea.descripcion;
+      this.tareaService.modificarTarea(id, { ...tarea, titulo, descripcion }).subscribe(tareaActualizada => {
+        const index = this.tareas.findIndex(t => t.id === id);
+        this.tareas[index] = tareaActualizada;
+      });
     }
   }
 
   tareaCompletada(tarea: Tarea) {
     tarea.completada = !tarea.completada;
+    this.tareaService.tareaCompletada(tarea).subscribe();
   }
 }
