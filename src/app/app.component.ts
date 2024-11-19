@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiServiceService } from './service/api-service.service';
-
-interface Tarea {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  completada: boolean;
-}
+import { Tarea } from './models/tarea.model';
 
 @Component({
   selector: 'app-root',

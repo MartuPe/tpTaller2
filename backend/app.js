@@ -33,7 +33,20 @@ app.put('/tareas/:id', (req, res) => {
   }
 });
 
+//Agregar a tarea destacadas ------------------
+app.put('/tareas/:id/destacar', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const tarea = tareas.find(tarea => tarea.id === id);
+  if (tarea) {
+    tarea.destacada = !tarea.destacada; // Cambia el estado de destacada
+    res.json(tarea);
+  } else {
+    res.status(404).json({ message: 'Tarea no encontrada' });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
