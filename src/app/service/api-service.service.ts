@@ -29,9 +29,9 @@ export class ApiServiceService {
   tareaCompletada(tarea: Tarea): Observable<Tarea> {
     return this.http.put<Tarea>(`${this.apiUrl}/${tarea.id}`, tarea);
   }
-
-  destacarTarea(id: number): Observable<Tarea> {
-    return this.http.put<Tarea>(`${this.apiUrl}/${id}/destacar`, {});
+  
+  destacarTarea(id: number, destacada: boolean): Observable<Tarea> {
+    return this.http.put<Tarea>(`${this.apiUrl}/${id}/destacar`, { destacada });
   }
 
 }

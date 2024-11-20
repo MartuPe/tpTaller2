@@ -17,15 +17,20 @@ export class AppComponent implements OnInit {
     this.listarTareas();
   }
 
-  listarTareas() {
+  /*listarTareas() {
     this.tareaService.listarTareas().subscribe(tareas => this.tareas = tareas);
-  }
+  }*/
+    listarTareas() {
+      this.tareaService.listarTareas().subscribe(tareas => {
+        this.tareas = tareas.sort((a, b) => Number(b.destacada) - Number(a.destacada));
+      });
+    }
 
   crearTarea() {
     const titulo = prompt('Titulo de su Tarea:');
     const descripcion = prompt('Descripción de su Tarea:');
     if (titulo && descripcion) {
-      const tarea: Tarea = { id: this.tareas.length + 1, titulo, descripcion, completada: false };
+      const tarea: Tarea = { id: this.tareas.length + 1, titulo, descripcion, completada: false, destacada:false };
       this.tareaService.crearTarea(tarea).subscribe(nuevaTarea => this.tareas.push(nuevaTarea));
     } else {
       alert('El título y la descripción son obligatorios');
@@ -54,4 +59,14 @@ export class AppComponent implements OnInit {
     tarea.completada = !tarea.completada;
     this.tareaService.tareaCompletada(tarea).subscribe();
   }
+  //Destacar tarea
+  destacarTarea(tarea: Tarea) {
+    const nuevoEstado = !tarea.destacada;
+    this.tareaService.destacarTarea(tarea.id, nuevoEstado).subscribe(tareaActualizada => {
+      const index = this.tareas.findIndex(t => t.id === tarea.id);
+      this.tareas[index] = tareaActualizada;
+      this.listarTareas(); // Reordenar las tareas
+    });
+  }
+  
 }
