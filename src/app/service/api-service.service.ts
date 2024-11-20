@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-interface Tarea {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  completada: boolean;
-}
+import { Tarea } from '../models/Tarea.model';
 
 @Injectable({
   providedIn: 'root'
