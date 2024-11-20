@@ -10,20 +10,24 @@
 
  <app-header></app-header>
 
-  <main class="fondoColor">
-    <div class="card-container" style="padding-top: 5rem;">
-      <div *ngFor="let tarea of tareas" class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">{{ tarea.titulo }}</h5>
-          <p class="card-text">{{ tarea.descripcion }}</p>
-          <button class="btn btn-primary" (click)="eliminarTarea(tarea.id)">Eliminar</button>
-          <button class="btn btn-primary ms-2" (click)="modificarTarea(tarea.id)">Modificar</button>
-          <button class="btn btn-secondary" (click)="tareaCompletada(tarea)">
-            {{ tarea.completada ? 'Desmarcar' : 'Marcar como Completada' }}
-          </button>
-        </div>
+ <main class="fondoColor">
+  <div class="card-container" style="padding-top: 5rem;">
+    <div *ngFor="let tarea of tareas" class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ tarea.titulo }}</h5>
+        <p class="card-text">{{ tarea.descripcion }}</p>
+        <button class="btn btn-primary" (click)="eliminarTarea(tarea.id)">Eliminar</button>
+        <button class="btn btn-primary ms-2" (click)="modificarTarea(tarea.id)">Modificar</button>
+        <button class="btn btn-secondary ms-2" (click)="tareaCompletada(tarea)">
+          {{ tarea.completada ? 'Desmarcar' : 'Marcar como Completada' }}
+        </button>
+        
+        <button class="btn btn-warning ms-2" (click)="destacarTarea(tarea)">
+          {{ tarea.destacada ? 'Quitar Destacado' : 'Destacar' }}
+        </button>
       </div>
     </div>
+  </div>
 
     <div style="text-align: center;">
       <button (click)="crearTarea()" style="text-align: center;" class="btn btn-primary mt-4">Agregar Tarea</button>
