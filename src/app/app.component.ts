@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiServiceService } from './service/api-service.service';
-import { Tarea } from './models/tarea.model';
+import { Tarea } from './models/Tarea.model';
 
 @Component({
   selector: 'app-root',
